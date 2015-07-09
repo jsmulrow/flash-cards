@@ -28,7 +28,7 @@ app.get('/', function (req, res) {
 });
 
 app.use(function (req, res, next) {
-	console.log('made it')
+	console.log('made it');
 	next();
 });
 
