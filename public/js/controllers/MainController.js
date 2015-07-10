@@ -1,8 +1,10 @@
 app.controller('MainController', function ($scope, FlashCardsFactory, ScoreFactory) {
 
     $scope.statistics = '../statistics.html';
+    $scope.loading = true;
 
     FlashCardsFactory.getFlashCards().then(function(data){
+        $scope.loading = false;
         $scope.flashCards = data;
     });
     
@@ -13,18 +15,16 @@ app.controller('MainController', function ($scope, FlashCardsFactory, ScoreFacto
         "Node"
     ];
 
+    $scope.activeCat = null;
+
     $scope.getCategoryCards = function(category){
-    	FlashCardsFactory.getFlashCards(category).then(function(data){
-    		$scope.flashCards = data;
+    	$scope.activeCat = category;
+        $scope.loading = true;
+        FlashCardsFactory.getFlashCards(category).then(function(data){
+    		$scope.loading = false;
+            $scope.flashCards = data;
     	});
     };
-
-	$scope.answerQuestion = function (answer, flashCard) {
-		if (!flashCard.answered) {
-			flashCard.answered = true;
-			flashCard.answeredCorrectly = answer.correct;
-			if (answer.correct) ScoreFactory.correct++;
-			else ScoreFactory.incorrect++;
-		}
-	}
 });
+
+//Express refers to the query string as "req.query" while Angular refers to it as "req.params"
