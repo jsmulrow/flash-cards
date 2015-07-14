@@ -1,0 +1,12 @@
+<h1>In the view</h1>
+
+<div>
+    <button border-on-hover class='category-button' 
+    ng-class="{active: flashCardsContainer.activeCat === category}" 
+    ng-repeat="category in categories" 
+    ng-click="getCategoryCards(category)">{{ category }}</button>
+</div>
+
+<loader ng-show="loading"></loader>
+
+<flash-card ng-repeat="flashCard in flashCardsContainer.flashCards | orderBy : 'question'" card='flashCard'></flash-card>

@@ -1,0 +1,39 @@
+<h1>editing the card</h1>
+<!-- <creation-form editing="true" cardId="cardId"></creation-form> -->
+
+<div>
+    <hr/>
+    <h2>Update the card</h2>
+    <h1>this is the id: {{cardId}}</h1>
+    <hr/>
+</div>
+
+<form role="form" name="newCardForm" ng-submit="updateCard(oldCard)">
+    <pre>{{ oldCard | json }}</pre>
+    <div>
+        <label>Question: </label>
+        <input type="text" name="question" ng-model="oldCard.question" required ng-minlength="15"> 
+        <!-- <h3 ng-show="newCardForm.question.$untouched">Question is a required field</h3> -->
+        <!-- <h3 ng-show="newCardForm.question.$invalid">Question is too long</h3> -->
+    </div>
+    <div>
+        <label>Category: </label>
+        <select ng-model="oldCard.category" required>
+            <option>MongoDB</option>
+            <option>Express</option>
+            <option>Angular</option>
+            <option>Node</option>
+        </select>
+        <!-- <h3 ng-show="newCardForm.$valid">Category is a required field</h3> -->
+    </div>
+    <div ng-repeat="answer in oldCard.answers">
+        <label>Answer {{$index + 1}}</label>
+        <input type="text" ng-model="answer.text" ng-maxlength="40" required>
+        <input type="checkbox" ng-model="answer.correct">
+        <!-- <h3 ng-show="newCardForm.$valid">Question is too long</h3> -->
+    </div>
+    <button type="submit">Update</button>
+    <!-- <button ng-show="editing" ng-click="cancelEdit()">Cancel edit</button> -->
+
+</form>
+<button ng-click="returnToView()">Return to Card View</button>

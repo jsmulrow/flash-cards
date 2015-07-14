@@ -1,5 +1,6 @@
 var path = require('path');
 var express = require('express');
+var bodyParser = require('body-parser');
 var FlashCardModel = require('./models/flash-card-model');
 
 var app = express(); // Create an express app!
@@ -21,6 +22,9 @@ var indexHtmlPath = path.join(__dirname, '../index.html');
 // something in our public folder, serve up that file
 // e.g. angular.js, style.css
 app.use(express.static(publicPath));
+
+// parse json in post requests
+app.use(bodyParser.json());
 
 // If we're hitting our home page, serve up our index.html file!
 app.get('/', function (req, res) {
@@ -47,3 +51,50 @@ app.get('/cards', function (req, res) {
     });
 
 });
+
+app.post('/cards', function(req, res) {
+    // req.body holds new card info
+    var newCard = new FlashCardModel(req.body);
+    newCard.save(function(e, data) {
+        if (e) throw e;
+        // send back the new card
+        res.json(data);
+    });
+});
+
+app.get('/cards/:flashCardId', function(req, res) {
+    // return the specified card
+    console.log(req.query);
+    FlashCardModel.findOne(req.query).exec()
+        .then(function(card) {
+            res.json(card);
+        });
+});
+
+app.put('/cards/:flashCardId', function(req, res) {
+    // update the specified card
+    console.log(req.params.flashCardId);
+    console.log(req.body);
+
+    FlashCardModel.findByIdAndUpdate(
+        req.params.flashCardId,
+        req.body,
+        function(e, data) {
+            res.json(req.body);
+        }
+    );
+});
+
+app.delete('/cards/:flashCardId', function(req, res) {
+    // update the specified card
+    console.log('deleting', req.params.flashCardId);
+
+    FlashCardModel.findByIdAndRemove(
+        req.params.flashCardId,
+        function(e, data) {
+            res.json(data);
+        }
+    );
+});
+
+

@@ -81,3 +81,9 @@
   border: 2px solid black !important;
 }
 
+.displayed {
+    display: block;
+    margin-left: auto;
+    margin-right: auto 
+}
+

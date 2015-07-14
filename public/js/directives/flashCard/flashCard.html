@@ -1,0 +1,18 @@
+<div class="flash-card" ng-hide="loading">
+	<a href="" ng-click="showEditing()">Edit card</a>
+	<a href="" ui-sref="manageCard({cardId: card._id})">Manage card</a>
+	<div ng-show="isEditing">
+		<creation-form editing="isEditing" card="card"></creation-form>
+	</div>
+	<div ng-hide="isEditing">
+	    <h1>{{ card.question | uppercase }}</h1>
+	    <ul class="flash-card-answers">
+	    	<li border-on-hover ng-repeat="answer in card.answers" class="flash-card-answer" ng-click="answerQuestion(answer, card)">{{ answer.text }}</li>
+	    </ul>
+
+	    <h2 class="answer-feedback" ng-class="card.answeredCorrectly ? 'correct' : 'incorrect'" ng-show="card.answered">
+	        <span ng-show="card.answeredCorrectly">Yeah, you got it right!</span>
+	        <span ng-show="!card.answeredCorrectly">Nope, you got it wrong.</span>
+	    </h2>
+    </div>
+</div>

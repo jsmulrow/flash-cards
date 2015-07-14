@@ -1,7 +1,7 @@
 app.directive('borderOnHover', function(){
 	return {
 		restrict: 'A',
-		link: function(scope, element, attribute){
+		link: function(scope, element, attrs){
 			element.on('mouseenter', function(){
 				element.addClass("border-on-hover");
 			});
